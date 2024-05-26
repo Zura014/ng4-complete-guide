@@ -13,4 +13,10 @@ export class ShoppingListComponent {
     new Ingredient('Tomatoes', 10),
   ];
 
+  onIngredientAdded(ingredient: Ingredient): void {
+    if(ingredient.name === '' || ingredient.amount === 0) return;
+    else{
+      this.ingredients.push(ingredient);
+    }
+  }
 }
