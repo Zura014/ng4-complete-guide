@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ng4-complete-guide": {
+    "course-project-routing-final": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/ng4-complete-guide",
+            "outputPath": "dist/course-project-routing-final",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -35,8 +35,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ng4-complete-guide:build:production"
+              "buildTarget": "course-project-routing-final:build:production"
             },
             "development": {
-              "buildTarget": "ng4-complete-guide:build:development"
+              "buildTarget": "course-project-routing-final:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "ng4-complete-guide:build"
+            "buildTarget": "course-project-routing-final:build"
           }
         },
         "test": {
@@ -95,8 +95,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "src/styles.css"
             ],
             "scripts": []
           }
