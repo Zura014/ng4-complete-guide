@@ -9,6 +9,7 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
 import { AuthModule } from './auth/auth.module';
+import { LoggingService } from './logging.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { AuthModule } from './auth/auth.module';
     SharedModule,
     CoreModule
   ],
-  providers: [],
+  // providers: [
+  //   LoggingService
+  // ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
