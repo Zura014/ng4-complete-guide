@@ -1,7 +1,7 @@
 import {Component, ComponentFactoryResolver, OnDestroy, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { catchError, Observable, Subscription, tap } from 'rxjs';
 
 import { AuthService, AuthResponseData } from './auth.service';
 import { AlertComponent } from "../shared/alert/alert.component";
@@ -38,24 +38,56 @@ export class AuthComponent implements OnDestroy {
     this.isLoading = true;
 
     if (this.isLoginMode) {
-      authObs = this.authService.login(email, password);
+      authObs = this.authService.login(email, password).pipe(
+        tap(
+          {
+            next: resData => {
+              console.log(resData);
+              this.isLoading = false;
+              this.router.navigate(['/recipes']);
+            },
+            error: errorMessage => {
+              console.log(errorMessage);
+              this.error = errorMessage;
+              this.showErrorAlert(errorMessage);
+              this.isLoading = false;
+            }
+          }              
+      ));
     } else {
-      authObs = this.authService.signup(email, password);
+      authObs = this.authService.signup(email, password).pipe(
+        tap(
+          {
+            next: resData => {
+              console.log(resData);
+              this.isLoading = false;
+              this.router.navigate(['/recipes']);
+            },
+            error: errorMessage => {
+              console.log(errorMessage);
+              this.error = errorMessage;
+              this.showErrorAlert(errorMessage);
+              this.isLoading = false;
+            }
+          }              
+      ));
     }
 
-    authObs.subscribe(
-      resData => {
-        console.log(resData);
-        this.isLoading = false;
-        this.router.navigate(['/recipes']);
-      },
-      errorMessage => {
-        console.log(errorMessage);
-        this.error = errorMessage;
-        this.showErrorAlert(errorMessage);
-        this.isLoading = false;
-      }
-    );
+    authObs.subscribe();
+
+    // authObs.subscribe(
+    //   resData => {
+    //     console.log(resData);
+    //     this.isLoading = false;
+    //     this.router.navigate(['/recipes']);
+    //   },
+    //   errorMessage => {
+        // console.log(errorMessage);
+        // this.error = errorMessage;
+        // this.showErrorAlert(errorMessage);
+        // this.isLoading = false;
+    //   }
+    // );
 
     form.reset();
   }
@@ -73,11 +105,10 @@ export class AuthComponent implements OnDestroy {
 
   private showErrorAlert(message: string) {
     // const alertCmp: AlertComponent = new AlertComponent();
-    const alertCmpFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
     const hostViewContainerRef = this.alertHost.viewContainerRef;
     hostViewContainerRef.clear();
     
-    const componentRef = hostViewContainerRef.createComponent(alertCmpFactory);
+    const componentRef = hostViewContainerRef.createComponent(AlertComponent);
 
     componentRef.instance.message = message;
     this.closeSub = componentRef.instance.close.subscribe(() => {
